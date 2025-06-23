@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Book Page</title>
+    <link rel="stylesheet" href="/css/style.css">
+	<script src="/js/authenticate.js"></script>
+</head>
+<body>
+	<h1>Update Book</h1>
+	    <form id="updateBookForm">
+	        <input type="hidden" name="id">
+	        <input name="name" placeholder="Book Name" required><br>
+	        <input name="author" placeholder="Author"><br>
+	        <input name="imageUrl" placeholder="Image URL"><br>
+	        <textarea name="description" placeholder="Description"></textarea><br>
+	        <input type="date" name="startDate"><br>
+	        <input type="date" name="endDate"><br>
+	        <input type="number" name="rating" min="1" max="5"><br>
+	        <input name="genre" placeholder="Genre"><br>
+	        <select name="status">
+	            <option value="to-read">To Read</option>
+	            <option value="current">Current</option>
+	            <option value="read">Read</option>
+	        </select><br>
+	        <button type="submit">Update</button>
+	    </form>
+	    <script>
+	        const params = new URLSearchParams(window.location.search);
+	        const bookId = params.get("id");
+
+	        async function loadBook() {
+	            const token = localStorage.getItem("token");
+	            const res = await fetch(`/api/home/update?id=${bookId}`, {
+	                headers: { "Authorization": `Bearer ${token}` }
+	            });
+	            const book = await res.json();
+	            for (const key in book) {
+	                if (document.querySelector(`[name=${key}]`)) {
+	                    document.querySelector(`[name=${key}]`).value = book[key];
+	                }
+	            }
+	        }
+
+	        document.getElementById("updateBookForm").addEventListener("submit", async function(e) {
+	            e.preventDefault();
+	            const form = e.target;
+				const formData = new FormData(form);
+	            const book = {};
+				
+				for (const [key, value] of formData.entries()) {
+				        if (value !== "") {
+				            book[key] = value;
+				        }
+				    }
+				
+	            const token = localStorage.getItem("token");
+
+	            await fetch(`/api/home/update?id=${bookId}`, {
+	                method: "PUT",
+	                headers: {
+	                    "Content-Type": "application/json",
+	                    "Authorization": `Bearer ${token}`
+	                },
+	                body: JSON.stringify(book)
+	            });
+	            window.location.href = "/api/home";
+	        });
+
+	        loadBook();
+	    </script>
+</body>
+</html>

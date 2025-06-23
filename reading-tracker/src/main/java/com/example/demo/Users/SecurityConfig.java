@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -38,12 +37,29 @@ public class SecurityConfig {
 //					.permitAll();
 //				})
 				.logout(logout -> logout
-			            .logoutSuccessUrl("/login.html?logout=true")
+			            .logoutSuccessUrl("/api/login?logout=true")
 			            .permitAll()
 			     )
 				.csrf(csrf ->csrf.disable())
 				.authorizeHttpRequests(registry -> {
-					registry.requestMatchers("/api/register", "/api/login", "/api/home", "/css/**", "/images/**","/js/**")
+					registry.requestMatchers(
+							"/api/register", 
+							"/api/login", 
+							"/api/home", 
+							"/api/home/books", 
+							"/api/home/view", 
+							"/api/home/view/book", 
+							"/api/home/add",
+							"/api/home/update", 
+							"/api/home/genres",
+							"/api/home/genres/list",
+							"/api/home/genres/books",
+							"/api/home/search",
+							"/css/**", 
+							"/images/**",
+							"/js/**", 
+							"/uploads/**"
+					)
 					.permitAll()
 					.anyRequest()
 					.authenticated();

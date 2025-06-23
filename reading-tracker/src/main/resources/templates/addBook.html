@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Book Page</title>
+    <link rel="stylesheet" href="/css/style.css">
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+						      const token = localStorage.getItem("token");
+
+						      if (!token) {
+						        alert("No token found. Please login.");
+						        window.location.href = "/api/login";
+						        return;
+						      }
+
+						      fetch("/api/home/add", {
+						        headers: { Authorization: "Bearer " + token }
+						      })
+						      .then(res => {
+						        if (!res.ok) throw new Error("Unauthorized");
+						        return res.text();
+						      })
+						      .then(data => {
+						        const dataDiv = document.getElementById("data");
+						        if (dataDiv) {
+						          dataDiv.innerText = data;
+						        }
+						      })
+						      .catch(() => {
+						        alert("Access denied. Login again.");
+						        localStorage.removeItem("token");
+						        window.location.href = "/api/login";
+						      });
+						    });
+	</script>
+</head>
+<body>
+	<h1>Add a New Book</h1>
+	    <form id="addBookForm" enctype="multipart/form-data">
+	        <input type="text" name="name" placeholder="Book Name" required><br>
+	        <input type="text" name="author" placeholder="Author" required><br>
+	        <input type="file" name="image" accept="image/*"><br>
+	        <textarea name="description" placeholder="Description"></textarea><br>
+	        <input type="date" name="startDate"><br>
+	        <input type="date" name="endDate"><br>
+	        <input type="number" name="rating" min="1" max="5"><br>
+	        <input type="text" name="genre" placeholder="Genre"><br>
+	        <select name="status" required>
+				<option value="TO_READ">To Read</option>
+				<option value="READING">Reading</option>
+				<option value="READ">Read</option>
+	        </select><br>
+	        <button type="submit">Submit</button>
+	    </form>
+	    <script>
+	        document.getElementById("addBookForm").addEventListener("submit", async function(e) {
+	            e.preventDefault();
+	            const form = e.target;
+				const formData = new FormData(form);
+	            
+	            const token = localStorage.getItem("token");
+
+	            await fetch("/api/home/add", {
+	                method: "POST",
+	                headers: {
+	                    
+	                    "Authorization": `Bearer ${token}`
+	                },
+	                body: formData
+	            }).then(res => {
+				    if (!res.ok) throw new Error("Failed to save: " + res.status);
+				    return res.json();
+				}).then(data => {
+				    console.log("Saved:", data);
+				    window.location.href = "/api/home"; // or wherever
+				}).catch(err => {
+				    console.error(err);
+				});
+	        });
+	    </script>
+</body>
+</html>

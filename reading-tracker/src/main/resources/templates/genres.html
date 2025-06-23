@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Browse by Genre</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>Books by Genre</h1>
+    <select id="genre-select">
+        <option value="">-- Select Genre --</option>
+    </select>
+    <div id="genre-books"></div>
+
+    <script>
+        const token = localStorage.getItem("token");
+
+        async function loadGenres() {
+            const res = await fetch("/api/home/genres/list", {
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+            const genres = await res.json();
+            const select = document.getElementById("genre-select");
+            genres.forEach(g => {
+                const opt = document.createElement("option");
+                opt.value = g;
+                opt.innerText = g;
+                select.appendChild(opt);
+            });
+        }
+
+        async function loadBooksByGenre(genre) {
+            const res = await fetch(`/api/home/genres/books?genre=${encodeURIComponent(genre)}`, {
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+            const books = await res.json();
+            const container = document.getElementById("genre-books");
+            container.innerHTML = books.map(book => `
+                <div class="book-card">
+                    <img src="${book.imageUrl}" alt="${book.name}">
+                    <div class="book-info">
+                        <h3>${book.name}</h3>
+                        <p><strong>Author:</strong> ${book.author}</p>
+                        <p><strong>Status:</strong> ${book.status}</p>
+                        <a href="/api/home/view?id=${book.id}">👁️ View</a>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        document.getElementById("genre-select").addEventListener("change", (e) => {
+            if (e.target.value) loadBooksByGenre(e.target.value);
+        });
+
+        loadGenres();
+    </script>
+</body>
+</html>
