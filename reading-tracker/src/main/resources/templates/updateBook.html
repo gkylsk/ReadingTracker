@@ -4,28 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Book Page</title>
-    <link rel="stylesheet" href="/css/style.css">
-	<script src="/js/authenticate.js"></script>
+    <link rel="stylesheet" href="/css/formStyle.css">
+	<script src="/js/authenticate.js"></script> 
 </head>
 <body>
-	<h1>Update Book</h1>
-	    <form id="updateBookForm">
-	        <input type="hidden" name="id">
-	        <input name="name" placeholder="Book Name" required><br>
-	        <input name="author" placeholder="Author"><br>
-	        <input name="imageUrl" placeholder="Image URL"><br>
-	        <textarea name="description" placeholder="Description"></textarea><br>
-	        <input type="date" name="startDate"><br>
-	        <input type="date" name="endDate"><br>
-	        <input type="number" name="rating" min="1" max="5"><br>
-	        <input name="genre" placeholder="Genre"><br>
-	        <select name="status">
-	            <option value="to-read">To Read</option>
-	            <option value="current">Current</option>
-	            <option value="read">Read</option>
-	        </select><br>
-	        <button type="submit">Update</button>
-	    </form>
+	<div class="container">
+			<h1>Update Book</h1>
+			<form id="updateBookForm" class="form-data">
+		        <input type="hidden" name="id">
+				<p>Book Name</p>
+		        <input name="name" placeholder="Book Name" required><br>
+				<p>Description</p>
+		        <textarea name="description" placeholder="Description"></textarea><br>
+				<p>End Date</p>
+		        <input type="date" name="endDate"><br>
+				<p>Rating</p>
+		        <div class="rating-container">
+					<div class="rating-stars">
+						<input type="radio" id="star5" name="rating" value="5">
+						<label for="star5">★</label>
+						<input type="radio" id="star4" name="rating" value="4">
+						<label for="star4">★</label>
+						<input type="radio" id="star3" name="rating" value="3">
+						<label for="star3">★</label>
+						<input type="radio" id="star2" name="rating" value="2">
+						<label for="star2">★</label>
+						<input type="radio" id="star1" name="rating" value="1">
+						<label for="star1">★</label>
+					</div>
+				</div>
+				<p>Genre</p>
+		        <input name="genre" placeholder="Genre"><br>
+				<p>Status</p>
+		        <select name="status">
+		            <option value="to-read">To Read</option>
+		            <option value="current">Current</option>
+		            <option value="read">Read</option>
+		        </select><br>
+		        <button type="submit">Update</button>
+		    </form>
+		</div>
+
+		<div class="wrapper">
+			<nav>
+				<ul class="nav-links">
+					<li><a href="/api/home">⬅️ Back</a></li>
+				</ul>
+			</nav>
+		</div>
+		<br>
+		
+		
 	    <script>
 	        const params = new URLSearchParams(window.location.search);
 	        const bookId = params.get("id");

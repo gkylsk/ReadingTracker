@@ -13,18 +13,9 @@ body{
     background-position: center;
 }
 
-.wrapper{
-    width: 100%;
-    background: transparent;
-    border: 2px solid rgba(255, 255, 255, .2);
-    backdrop-filter: blur(20px);
-    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-    color: #fff;
-    border-radius: 10px;
-}
 .wrapper nav{
     padding: 10px, 0;
-    text-align: center;
+    text-align: left;
 }
 
 nav-links {
@@ -54,43 +45,6 @@ nav-links {
     background-color: rgba(22, 151, 123, 0.3);
 }
 
-#search-section{
-    text-align: center;
-    margin: auto;
-    margin-bottom: 30px;
-    background-color: rgba(113, 7, 116, 0.3);
-    border: 2px solid rgba(255, 255, 255, .2);
-    box-shadow: 0 0 10px rgba(255, 255, 255, .2);
-    border-radius: 10px;
-}
-
-#search-section input,
-#search-section select,
-#search-section button{
-    padding: 10px;
-    margin: 5px;
-    border-radius: 6px;
-    border: none;
-    font-size: 1rem;
-    background-color: rgba(46, 85, 110, .7);
-}
-
-#search-section input,
-#search-section select{
-    width: 200px;
-}
-
-#search-section button{
-    cursor: pointer;
-    background-color: #3c90f7;
-    color: white;
-    transition: background-color 0.3s ease;
-}
-
-#search-section button:hover{
-    background-color: #2563eb;
-}
-
 .container{
     margin: 30px auto;
     padding: 20px;
@@ -101,20 +55,35 @@ nav-links {
     backdrop-filter: blur(20px);
     box-shadow: 0 0 10px rgba(0, 0, 0, .1);
     border-radius: 10px;
-    display: flex;
-    flex-direction: column;
+    align-items: center;
 }
 
 .container h1{
     font-size: 36px;
     text-align: center;
 }
-.container h2{
-    font-size: 24px;
+
+.genre-options{
     text-align: center;
+    margin: auto;
+    margin: 10px 0px 10px;
+    /* background-color: rgba(113, 7, 116, 0.3);
+    border: 2px solid rgba(255, 255, 255, .2);
+    box-shadow: 0 0 10px rgba(255, 255, 255, .2); */
+    /* width: 100%; */
 }
 
-#book-list{
+.genre-options select{
+    padding: 10px;
+    margin: 5px;
+    border-radius: 6px;
+    border: none;
+    font-size: 1rem;
+    background-color: rgba(46, 85, 110, .7);
+    /* width: 200px; */
+}
+
+#genre-books{
     display: grid;
     grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
     gap: 20px;
@@ -142,6 +111,7 @@ nav-links {
 
 .book-card img {
     width: 100px;
+    max-width: 200px;
     height: auto;
     object-fit: cover;
     border-radius: 6px;
@@ -161,8 +131,6 @@ nav-links {
 
 .book-actions {
     margin-top: 10px;
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
 }
 
 .book-actions a,

@@ -3,22 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>View Book</title>
-    <link rel="stylesheet" href="/css/style.css">
-
+    <link rel="stylesheet" href="/css/viewBook.css">
+	<script src="/js/authenticate.js"></script> 
 </head>
 <body>
-    <div class="book-details">
-        <h1 id="book-name">Book Title</h1>
-        <img id="book-image" src="" alt="Book Cover" style="max-width: 200px;"><br>
-        <p><strong>Author:</strong> <span id="book-author"></span></p>
-        <p><strong>Description:</strong> <span id="book-description"></span></p>
-        <p><strong>Status:</strong> <span id="book-status"></span></p>
-        <p><strong>Start Date:</strong> <span id="book-startDate"></span></p>
-        <p><strong>End Date:</strong> <span id="book-endDate"></span></p>
-        <p><strong>Rating:</strong> <span id="book-rating"></span></p>
-        <p><strong>Genre:</strong> <span id="book-genre"></span></p>
-        <a href="/api/home">⬅️ Back</a>
-    </div>
+	<div class="container">
+	        <div class="book-details">
+	            <h1 id="book-name"></h1>
+	            <img id="book-image" src="" alt="Book Cover" style="max-width: 200px;"><br>
+	            <div class="book-info">
+	                <p><strong>Author:</strong> <span id="book-author"></span></p>
+	                <p><strong>Description:</strong> <span id="book-description"></span></p>
+	                <p><strong>Status:</strong> <span id="book-status" style="text-transform: capitalize"></p>
+	                <p><strong>Start Date:</strong> <span id="book-startDate"></span></p>
+	                <p><strong>End Date:</strong> <span id="book-endDate"></span></p>
+	                <p><strong>Rating:</strong> <span id="book-rating"></span></p>
+	                <p><strong>Genre:</strong> <span id="book-genre"></span></p>
+	            </div>
+	        </div>
+
+	    </div>
+	    
+	    <div class="wrapper">
+			<nav>
+				<ul class="nav-links">
+					<li><a href="/api/home">⬅️ Home</a></li>
+				</ul>
+			</nav>
+		</div>
+	    <br>
 
     <script>
         const params = new URLSearchParams(window.location.search);
@@ -41,14 +54,14 @@
             const book = await res.json();
 
             document.getElementById("book-name").innerText = book.name || "N/A";
-            document.getElementById("book-image").src = book.imageUrl || "/images/placeholder.png";
+            document.getElementById("book-image").src = book.image || "/images/placeholder.png";
             document.getElementById("book-image").alt = book.name || "Book Cover";
             document.getElementById("book-author").innerText = book.author || "N/A";
             document.getElementById("book-description").innerText = book.description || "N/A";
             document.getElementById("book-status").innerText = book.status || "N/A";
             document.getElementById("book-startDate").innerText = book.startDate || "N/A";
             document.getElementById("book-endDate").innerText = book.endDate || "N/A";
-            document.getElementById("book-rating").innerText = book.rating || "N/A";
+            document.getElementById("book-rating").innerText = book.rating ? "★".repeat(book.rating) + "☆".repeat(5 - book.rating): "N/A";
             document.getElementById("book-genre").innerText = book.genre || "N/A";
         }
 

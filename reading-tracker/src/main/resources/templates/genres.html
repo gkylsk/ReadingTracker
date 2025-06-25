@@ -3,14 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Browse by Genre</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/genres.css">
+	<script src="/js/authenticate.js"></script> 
 </head>
 <body>
-    <h1>Books by Genre</h1>
-    <select id="genre-select">
-        <option value="">-- Select Genre --</option>
-    </select>
-    <div id="genre-books"></div>
+	
+	<div class="container">
+	        <h1>Books by Genre</h1>
+	        <div class="genre-options">
+	            <select id="genre-select">
+	            <option value="">-- Select Genre --</option>
+	        </select>
+	        </div>        
+	        <div id="genre-books"></div>
+	</div>    
+
+	    <div class="wrapper">
+			<nav>
+				<ul class="nav-links">
+					<li><a href="/api/home">⬅️ Back</a></li>
+				</ul>
+			</nav>
+		</div>
+	    <br>
 
     <script>
         const token = localStorage.getItem("token");
@@ -37,12 +52,14 @@
             const container = document.getElementById("genre-books");
             container.innerHTML = books.map(book => `
                 <div class="book-card">
-                    <img src="${book.imageUrl}" alt="${book.name}">
+                    <img src="${book.image}" alt="${book.name}">
                     <div class="book-info">
                         <h3>${book.name}</h3>
                         <p><strong>Author:</strong> ${book.author}</p>
-                        <p><strong>Status:</strong> ${book.status}</p>
+                        <p><strong>Status:</strong><span style="text-transform: capitalize;"> ${book.status}</span></p>
+						<div class="book-actions">
                         <a href="/api/home/view?id=${book.id}">👁️ View</a>
+						</div>
                     </div>
                 </div>
             `).join("");

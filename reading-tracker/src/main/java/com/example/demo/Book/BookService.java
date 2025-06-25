@@ -37,7 +37,6 @@ public class BookService {
 	
 	public List<Book> getBooks(String username){
 		List<Book> books = bookRepository.findByUser(findUser(username));
-//		System.out.print(books.get(0).getImage());
 		return books;
 	}
 	

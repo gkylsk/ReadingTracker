@@ -5,38 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
 	<link rel="stylesheet" href="/css/home.css">
-	<script src="/js/authenticate.js"></script>
+	<script src="/js/authenticate.js"></script> 
 </head>
 <body>
-    <div class="wrapper" id="response">
-		<h1>Home</h1>
+	<div class="wrapper">
+		<nav>
+			<ul class="nav-links">
+				<li><a href="/api/home/add">Add Book</a></li>
+				<li><a href="/api/home/genres">Browse by Genre</a></li>
+				<li><a href="/logout">Logout</a></li>
+			</ul>  
+		</nav>
+	</div>
+	<div id="search-section">
+	    <input type="text" id="search-input" placeholder="Search by name, author or genre">
+	    <select id="rating-filter">
+	        <option value="">Any Rating</option>
+	        <option value="1">1⭐</option>
+	        <option value="2">2⭐</option>
+	        <option value="3">3⭐</option>
+	        <option value="4">4⭐</option>
+	        <option value="5">5⭐</option>
+	    </select>
+	    <select id="status-filter">
+	        <option value="">Any Status</option>
+			<option value="TO_READ">To Read</option>
+			<option value="READING">Reading</option>
+			<option value="READ">Read</option>
+	    </select>
+	    <button onclick="searchBooks()">🔍 Search</button>
+	</div>
+	<div class="container" id="response">
 		<h1>Welcome to Your Book Tracker</h1>
-		    <nav>
-		        <a href="/api/home/add">Add Book</a>
-				<a href="/api/home/genres">Browse by Genre</a>
-		        <a href="/logout">Logout</a>
-		    </nav>
-			<div id="search-section">
-			    <input type="text" id="search-input" placeholder="Search by name, author or genre">
-			    <select id="rating-filter">
-			        <option value="">Any Rating</option>
-			        <option value="1">1⭐</option>
-			        <option value="2">2⭐</option>
-			        <option value="3">3⭐</option>
-			        <option value="4">4⭐</option>
-			        <option value="5">5⭐</option>
-			    </select>
-			    <select id="status-filter">
-			        <option value="">Any Status</option>
-					<option value="TO_READ">To Read</option>
-					<option value="READING">Reading</option>
-					<option value="READ">Read</option>
-			    </select>
-			    <button onclick="searchBooks()">🔍 Search</button>
-			</div>
-
-		    <h2>Recently Added Books</h2>
-		    <div id="book-list"></div>
+		<br>
+	    <h2>Recently Added Books</h2>
+	    <div id="book-list"></div>
     </div>
 	<script>
 		async function searchBooks() {
@@ -63,15 +66,18 @@
 		            return;
 		        }
 
+				
+
+
 		        list.innerHTML = books.map(book => `
 		            <div class="book-card">
-		                <img src="${book.imageUrl}" alt="${book.name}">
+		                <img src="${book.image}" alt="${book.name}">
 		                <div class="book-info">
 		                    <h3>${book.name}</h3>
 		                    <p><strong>Author:</strong> ${book.author}</p>
 		                    <p><strong>Genre:</strong> ${book.genre}</p>
-		                    <p><strong>Status:</strong> ${book.status}</p>
-		                    <p><strong>Rating:</strong> ${book.rating}</p>
+		                    <p style="text-transform: capitalize;"><strong>Status:</strong> ${book.status}</p>
+		                    <p><strong>Rating:</strong> ${"★".repeat(book.rating) + "☆".repeat(5 - book.rating)}</p>
 		                    <div class="book-actions">
 		                        <a href="/api/home/view?id=${book.id}">👁️ View</a>
 		                        <a href="/api/home/update?id=${book.id}">✏️ Update</a>
@@ -118,11 +124,11 @@
 		                const list = document.getElementById("book-list");
 		                list.innerHTML = recentBooks.map(book => `
 		                    <div class="book-card">
-		                        <img src="${book.imageUrl}" alt="${book.name}">
+		                        <img src="${book.image}" alt="${book.name}">
 		                        <div class="book-info">
 		                            <h3>${book.name}</h3>
 		                            <p><strong>Author:</strong> ${book.author}</p>
-		                            <p><strong>Status:</strong> ${book.status}</p>
+		                            <p style="text-transform: capitalize;"><strong>Status:</strong> ${book.status}</p>
 		                            <div class="book-actions">
 		                                <a href="/api/home/view?id=${book.id}">👁️ View</a>
 		                                <a href="/api/home/update?id=${book.id}">✏️ Update</a>

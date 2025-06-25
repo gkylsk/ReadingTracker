@@ -4,61 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Book Page</title>
-    <link rel="stylesheet" href="/css/style.css">
-	<script>
-		document.addEventListener("DOMContentLoaded", function () {
-						      const token = localStorage.getItem("token");
-
-						      if (!token) {
-						        alert("No token found. Please login.");
-						        window.location.href = "/api/login";
-						        return;
-						      }
-
-						      fetch("/api/home/add", {
-						        headers: { Authorization: "Bearer " + token }
-						      })
-						      .then(res => {
-						        if (!res.ok) throw new Error("Unauthorized");
-						        return res.text();
-						      })
-						      .then(data => {
-						        const dataDiv = document.getElementById("data");
-						        if (dataDiv) {
-						          dataDiv.innerText = data;
-						        }
-						      })
-						      .catch(() => {
-						        alert("Access denied. Login again.");
-						        localStorage.removeItem("token");
-						        window.location.href = "/api/login";
-						      });
-						    });
-	</script>
+    <link rel="stylesheet" href="/css/formStyle.css">
+	<script src="/js/authenticate.js"></script> 
 </head>
 <body>
-	<h1>Add a New Book</h1>
-	    <form id="addBookForm" enctype="multipart/form-data">
-	        <input type="text" name="name" placeholder="Book Name" required><br>
-	        <input type="text" name="author" placeholder="Author" required><br>
-	        <input type="file" name="image" accept="image/*"><br>
-	        <textarea name="description" placeholder="Description"></textarea><br>
-	        <input type="date" name="startDate"><br>
-	        <input type="date" name="endDate"><br>
-	        <input type="number" name="rating" min="1" max="5"><br>
-	        <input type="text" name="genre" placeholder="Genre"><br>
-	        <select name="status" required>
-				<option value="TO_READ">To Read</option>
-				<option value="READING">Reading</option>
-				<option value="READ">Read</option>
-	        </select><br>
-	        <button type="submit">Submit</button>
-	    </form>
+	<div class="container">
+			<h1>Add a New Book</h1>
+		    <form id="addBookForm" enctype="multipart/form-data" class="form-data">
+				<p>Book Name</p>
+		        <input type="text" name="name" placeholder="Book Name" required><br>
+				<p>Author Name</p>
+		        <input type="text" name="author" placeholder="Author" required><br>
+				<p>Image</p>
+		        <input type="file" name="image" accept="image/*" required><br>
+				<p>Start Date</p>
+		        <input type="date" name="startDate" required><br>
+				<p>Genre</p>
+		        <input type="text" name="genre" placeholder="Genre"><br>
+				<p>Status</p>
+		        <select name="status" required>
+					<option value="TO_READ">To Read</option>
+					<option value="READING">Reading</option>
+					<option value="READ">Read</option>
+		        </select><br>
+		        <button type="submit">Submit</button>
+		    </form>
+		</div>
+		<div class="wrapper">
+			<nav>
+				<ul class="nav-links">
+					<li><a href="/api/home">⬅️ Back</a></li>
+				</ul>
+			</nav>
+		</div>
+		<br>
+		
 	    <script>
 	        document.getElementById("addBookForm").addEventListener("submit", async function(e) {
 	            e.preventDefault();
 	            const form = e.target;
 				const formData = new FormData(form);
+				
+				formData.append("description", "");
+				formData.append("rating", "");
+				formData.append("endDate", "");
 	            
 	            const token = localStorage.getItem("token");
 
